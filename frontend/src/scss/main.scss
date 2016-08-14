@@ -1,0 +1,34 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#controls {
+  align-items: center;
+  background-color: gray;
+  color: orange;
+  display: flex;
+  height: 40px;
+  justify-content: space-around;
+
+  > .control > * {
+    cursor: pointer;
+  }
+
+  #load-points-control {
+    display: none;
+  }
+}
+
+#map {
+  width: 100%;
+  min-height: 100%;
+}
+
+#maps-key-prompt {
+  display: none;
+  padding: 25px;
+  position: absolute;
+}

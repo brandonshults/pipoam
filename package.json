@@ -1,0 +1,40 @@
+{
+  "name": "pipoam",
+  "version": "1.0.0",
+  "description": "Points in Polygons on a Map",
+  "main": "index.js",
+  "config": {
+    "port": 3000
+  },
+  "scripts": {
+    "clean": "rimraf frontend/dist",
+    "transpile-js": "webpack",
+    "transpile-scss": "node-sass --include-path frontend/src/scss frontend/src/scss/main.scss frontend/dist/css/main.css",
+    "copy-html": "cpx ./frontend/src/html/**/*.html ./frontend/dist",
+    "start-server": "node server.js",
+    "dev-js": "webpack --watch",
+    "dev-scss": "node-sass --watch --include-path frontend/src/scss frontend/src/scss/main.scss frontend/dist/css/main.css",
+    "dev-html": "cpx ./frontend/src/html/**/*.html ./frontend/dist --watch",
+    "start": "npm run clean && npm run transpile-js && npm run transpile-scss && npm run copy-html && npm run start-server",
+    "start-dev": "npm run clean && concurrently \"npm run dev-js\" \"npm run transpile-scss\" \"npm run dev-scss\" \"npm run dev-html\" \"npm run start-server\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brandon Shults",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "concurrently": "^2.2.0",
+    "cpx": "^1.3.2",
+    "exports-loader": "^0.6.3",
+    "express": "^4.14.0",
+    "imports-loader": "^0.6.5",
+    "js-marker-clusterer": "^1.0.0",
+    "node-sass": "^3.8.0",
+    "pouchdb": "^5.4.5",
+    "rimraf": "^2.5.4",
+    "vex": "0.0.4",
+    "webpack": "^1.13.1"
+  }
+}
