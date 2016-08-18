@@ -17,6 +17,7 @@
     "dev-html": "cpx ./frontend/src/html/**/*.html ./frontend/dist --watch",
     "start": "npm run clean && npm run transpile-js && npm run transpile-scss && npm run copy-html && npm run start-server",
     "start-dev": "npm run clean && concurrently \"npm run dev-js\" \"npm run transpile-scss\" \"npm run dev-scss\" \"npm run dev-html\" \"npm run start-server\"",
+    "generate-docs": "rimraf docs && jsdoc -r frontend/src/js -d docs -t ./node_modules/minami",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Brandon Shults",
@@ -36,5 +37,9 @@
     "rimraf": "^2.5.4",
     "vex": "0.0.4",
     "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.4.0",
+    "minami": "^1.1.1"
   }
 }

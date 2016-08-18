@@ -2,8 +2,8 @@ import configDb from '../data/config-db';
 
 /**
  * Load the google maps api script using the key stored in settings (or inputted by the user)
- * @module map/loadGoogleMapsScript
- * @param {string} apiKey The Google Maps API Key.  See https://developers.google.com/maps/documentation/javascript/get-api-key for more information.
+ * @module
+ * @param {String} apiKey The Google Maps API Key.  See https://developers.google.com/maps/documentation/javascript/get-api-key for more information.
  * @returns {Promise} Resolves on success when the script has loaded.  Rejects on failure.
  */
 export default function (apiKey) {

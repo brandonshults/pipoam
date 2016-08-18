@@ -2,16 +2,27 @@ import configDb from '../data/config-db';
 import ELEMENTS from '../elements';
 import points from './points';
 
+/**
+ * Determine a starting location, instantiate the map, populate pre-existing points.
+ * @module
+ * @returns {Promise.<Promise.<google.maps.Map>>}
+ */
 export default function () {
   return determineStartingLocation()
-    .then(configDb.setLocation)
+    .then(configDb.setStartLocation)
     .then(initializeMap)
     .then(googleMap => points.loadPoints(googleMap)
       .then(() => googleMap));
 }
 
+/**
+ * Pull a starting location from the DB.  If that fails, get the user's location from the browser.
+ * If that fails, use a default fallback.
+ * @private
+ * @returns {Promise.<{lat: number, lng: number}>}
+ */
 function determineStartingLocation() {
-  return configDb.getLocation().then(savedLocation => {
+  return configDb.getStartLocation().then(savedLocation => {
     if (savedLocation && savedLocation.hasOwnProperty('lat') && savedLocation.hasOwnProperty('lng')) {
       return savedLocation;
     } else if (navigator.geolocation) {
@@ -26,9 +37,14 @@ function determineStartingLocation() {
   });
 }
 
-function initializeMap(location) {
+/**
+ * @private
+ * @param centerLocation
+ * @returns {google.maps.Map}
+ */
+function initializeMap(centerLocation) {
   return new google.maps.Map(ELEMENTS.MAP, {
-    center: location,
+    center: centerLocation,
     mapTypeControl: true,
     zoom: 15
   });

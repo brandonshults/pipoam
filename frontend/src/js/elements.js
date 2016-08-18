@@ -1,5 +1,6 @@
 /**
- * @module elements
+ * Store references to commonly used dom elements.
+ * @module ELEMENTS
  */
 export default Object.freeze({
   /**

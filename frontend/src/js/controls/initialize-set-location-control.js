@@ -3,8 +3,7 @@ import configDb from '../data/config-db';
 
 /**
  * Initialize event listeners for clicking on the "Set Location" button.
- *
- * @module initializeSetLocationControl
+ * @module
  */
 export default function (map) {
   let currentCenter = map.getCenter();
@@ -13,5 +12,5 @@ export default function (map) {
   });
 
   elements.SET_LOCATION_CONTROL.addEventListener('click', () =>
-    configDb.setLocation({ lat: currentCenter.lat(), lng: currentCenter.lng() }));
+    configDb.setStartLocation({ lat: currentCenter.lat(), lng: currentCenter.lng() }));
 }

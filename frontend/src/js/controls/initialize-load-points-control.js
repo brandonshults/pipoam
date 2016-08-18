@@ -1,11 +1,10 @@
-/**
- * Initialize event listeners for clicking on the "Load Points" button.
- *
- * @module initializeLoadPointsControl
- */
 import ELEMENTS from '../elements';
 import points from '../map/points';
 
+/**
+ * Initialize event listeners for clicking on the "Load Points" button.
+ * @module
+ */
 export default function (map) {
   ELEMENTS.LOAD_POINTS_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_CONTROL, map));
 }
@@ -13,7 +12,7 @@ export default function (map) {
 /**
  * @private
  * @param {HTMLElement} inputElement The input element to attach the event listener to.
- * @param {Map} map The map.
+ * @param {google.maps.Map} map The map.
  */
 function pointsFileInputHandler(inputElement, map) {
   const files = inputElement.files;

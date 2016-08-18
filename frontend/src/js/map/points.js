@@ -1,31 +1,72 @@
+/** @type MarkerClusterer */
 import MarkerClusterer from 'imports?XModule=>undefined!exports?MarkerClusterer!js-marker-clusterer';
 import pointsDb from '../data/points-db';
 
-let clusterer;
-
+/**
+ * A module for working with points on the map.
+ * @module
+ */
 export default Object.freeze({
+  /**
+   * Load points from the db and add them to the map with clustering
+   * @static
+   * @param map
+   * @returns {Promise.<Array>}
+   */
   loadPoints(map) {
-    clusterer = getClusterer(map);
+    let clusterer = getClusterer(map);
     clusterer.clearMarkers();
     return pointsDb.getPoints()
       .then(pointsFromDb => pointsFromDb ? clusterer.addMarkers(pointsFromDb.map(convertPointToMarker)) : []);
   },
+
+  /**
+   * @static
+   * @returns {Promise.<Array.<{lat: number, lng: number}>>}
+   */
   getPoints() {
     return pointsDb.getPoints();
   },
+
+  /**
+   * Given a list of points, set them in the db and then load them to the map
+   * @static
+   * @param {Array.<{lat: number, lng: number}>} points
+   * @param {google.maps.Map} map
+   * @returns {Promise.<Promise.<Array>>}
+   */
   setPoints(points, map) {
     return pointsDb.setPoints(points)
       .then((() => this.loadPoints(map)).bind(this));
   }
 });
 
+/** @type {Map.<google.maps.Map, MarkerClusterer>}*/
+let mapClusters = new Map();
+
+/**
+ * Given a google map, get (and create if necessary) the associated clusterer.
+ * Doing it this way opens up the concept of multiple google maps, but this is sloppy and should
+ * be done in a better way
+ * @private
+ * @param {google.maps.Map} map
+ * @returns {MarkerClusterer}
+ */
 function getClusterer(map) {
-    return clusterer || new MarkerClusterer(map, [], {
+  if (!mapClusters.has(map)) {
+    mapClusters.set(map, new MarkerClusterer(map, [], {
       maxZoom: 14,
       imagePath: 'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
-    });
+    }));
+  }
+  return mapClusters.get(map);
 }
 
+/**
+ * @private
+ * @param {{lat: number, lng: number}} point
+ * @returns {google.maps.Marker}
+ */
 function convertPointToMarker(point) {
   return new google.maps.Marker({
     position: point,
