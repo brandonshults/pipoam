@@ -13,7 +13,13 @@ export default Object.freeze({
    * @type HTMLElement
    * @static
    */
-  LOAD_POINTS_CONTROL: document.getElementById('load-points-control'),
+  CONTROLS: document.getElementById('controls'),
+
+  /**
+   * @type HTMLElement
+   * @static
+   */
+  LOAD_POINTS_FROM_FILE_CONTROL: document.getElementById('load-from-file-control'),
 
   /**
    * @type HTMLElement
@@ -25,5 +31,11 @@ export default Object.freeze({
    * @type HTMLElement
    * @static
    */
-  SET_LOCATION_CONTROL: document.getElementById('set-location-control')
+  SET_LOCATION_CONTROL: document.getElementById('set-location-control'),
+
+  /**
+   * @type HTMLElement
+   * @static
+   */
+  LOAD_FROM_DB_FORM: document.getElementById('load-from-db-form')
 });

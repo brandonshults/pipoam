@@ -1,12 +1,13 @@
 import ELEMENTS from '../elements';
 import points from '../map/points';
+import controls from './controls';
 
 /**
  * Initialize event listeners for clicking on the "Load Points" button.
  * @module
  */
 export default function (map) {
-  ELEMENTS.LOAD_POINTS_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_CONTROL, map));
+  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL, map));
 }
 
 /**
@@ -36,6 +37,7 @@ function pointsFileInputHandler(inputElement, map) {
     }
 
     points.setPoints(loadedPoints, map);
+    controls.closeMenus();
   };
   fileReader.readAsText(files[0]);
 }

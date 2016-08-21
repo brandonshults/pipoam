@@ -3,19 +3,49 @@
   <head>
     <title>Points in Polygons on a Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/main.css" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet"/>
   </head>
   <body>
     <section id="controls">
       <div class="control">
-        <div id="api-key-control">API Key</div>
+        <h2 id="api-key-control" class="interactive">API Key</h2>
+      </div>
+      <div class="control expandable">
+        <label for="load-points-menu-button"><h2 class="interactive">Load Points</h2></label>
+        <input type="checkbox" name="load-points-menu-button" id="load-points-menu-button"/>
+        <ul class="menu">
+          <li>
+            <label for="load-from-file-control" class="secondary-title"><div class="button">Load From File</div></label>
+            <input type="file" id="load-from-file-control" name="load-from-file-control"/>
+          </li>
+          <li>
+            <form id="load-from-db-form">
+              <input type="radio" name="dialect" value="mysql" checked="checked" id="mysql-dialect-radio" class="control-radio">
+              <label for="mysql-dialect-radio">mysql</label>
+              <input type="radio" name="dialect" value="mariadb" id="mariadb-dialect-radio" class="control-radio">
+              <label for="mariadb-dialect-radio">mariadb</label>
+              <input type="radio" name="dialect" value="sqlite" id="sqlite-dialect-radio" class="control-radio">
+              <label for="sqlite-dialect-radio">sqlite</label>
+
+              <div class="main text-options">
+                <div class="text-input"><label>db name: </label><input name="dbName" type="text" /></div>
+                <div class="text-input"><label>username: </label><input name="username" type="text" /></div>
+                <div class="text-input"><label>password: </label><input name="password" type="password" /></div>
+                <div class="text-input"><label>host: </label><input name="host" type="text" value="localhost" /></div>
+                <div class="text-input"><label>port: </label><input name="port" type="text" value="3306" /></div>
+              </div>
+              <div class="sqlite text-options">
+                <div class="text-input"><label>sqlite file: </label><input name="storage" type="text" /></div>
+                <p class="disclaimer">Browsers restrict access to your file system so you will have to manually type the full path to your sqlite file.</p>
+              </div>
+              <button type="submit" class="button">Load From DB</button>
+            </form>
+          </li>
+        </ul>
+
       </div>
       <div class="control">
-        <label for="load-points-control">Load Points</label>
-        <input type="file" id="load-points-control" name="load-points-control" />
-      </div>
-      <div class="control">
-        <div id="set-location-control">Set Location</div>
+        <div id="set-location-control"><h2 class="interactive">Set Location</h2></div>
       </div>
     </section>
     <section id="map"></section>

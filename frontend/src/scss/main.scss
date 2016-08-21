@@ -1,30 +1,181 @@
+$control-background-color: #4A4A4A;
+$control-title-color: #BF7900;
+$border-color: #808080;
+$blue: #4B83C4;
+$light-gray: #D6D6D6;
+
 html, body {
+  color: $light-gray;
+  font-family: Arial, serif;
+  font-size: 12px;
   height: 100%;
   margin: 0;
   padding: 0;
   position: relative;
 }
 
+h3 {
+}
+
+h2 {
+  color: $control-title-color;
+  font-family: Arial, serif;
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.button {
+  background-color: $light-gray;
+  border: 1px solid $blue;
+  border-radius: 7px;
+  color: $blue;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial, serif;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  padding: 5px;
+}
+
+.interactive {
+  cursor: pointer;
+}
+
 #controls {
-  align-items: center;
-  background-color: gray;
-  color: orange;
+  background-color: $control-background-color;
   display: flex;
   height: 40px;
+  position: relative;
+  z-index: 2;
+  align-items: center;
   justify-content: space-around;
 
-  > .control > * {
-    cursor: pointer;
+  > .control {
+    position: relative;
+
+    &.expandable {
+      .menu {
+        background-color: $control-background-color;
+        display: none;
+        left: 50%;
+        list-style-type: none;
+        margin: 0;
+        max-width: 320px;
+        padding: 20px;
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%);
+        width: auto;
+
+        > li {
+          border: 1px solid $border-color;
+          display: block;
+          margin-top: 10px;
+          padding: 10px;
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+      }
+      > input[type="checkbox"] {
+        display: none;
+        &:checked + .menu {
+          display: block;
+        }
+      }
+    }
   }
 
-  #load-points-control {
+  #load-from-file-control {
     display: none;
+  }
+
+  #load-from-db-form {
+    &.error:before {
+      color: red;
+      content: "Error. Please check your input.";
+      display: block;
+      margin-bottom: 5px;
+    }
+    .sqlite.text-options {
+      display: none;
+    }
+
+    #sqlite-dialect-radio:checked + label {
+      + .main.text-options {
+        display: none;
+
+        + .sqlite.text-options {
+          display: block;
+        }
+      }
+    }
+
+    .button {
+      margin-top: 10px;
+    }
+  }
+}
+
+.control-radio {
+  display: none;
+
+  + label {
+    cursor: pointer;
+    margin-left: 5px;
+    padding-left: 15px;
+    position: relative;
+
+    &:before {
+      border: 1px solid $border-color;
+      border-radius: 10px;
+      content: ' ';
+      display: inline-block;
+      height: 10px;
+      left: 0;
+      margin-right: 5px;
+      position: absolute;
+      top: 0;
+      width: 10px;
+    }
+  }
+
+  &:first-child + label {
+    margin-left: 0;
+  }
+
+  &:checked + label:before {
+    background: white radial-gradient(ellipse at center, white 0%, $border-color 100%);
+  }
+}
+
+.text-options {
+  display: table;
+  width: 250px;
+
+  > .text-input {
+    display: table-row;
+    > label, > input {
+      display: table-cell;
+      margin-top: 5px;
+    }
+    > label {
+      padding-right: 5px;
+    }
+    > input {
+      box-sizing: border-box;
+      width: 100%;
+    }
   }
 }
 
 #map {
-  width: 100%;
   min-height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: 1;
 }
 
 #maps-key-prompt {

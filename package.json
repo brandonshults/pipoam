@@ -32,10 +32,13 @@
     "express": "^4.14.0",
     "imports-loader": "^0.6.5",
     "js-marker-clusterer": "^1.0.0",
+    "multiparty": "^4.1.2",
+    "mysql": "^2.11.1",
     "node-sass": "^3.8.0",
     "pouchdb": "^5.4.5",
     "rimraf": "^2.5.4",
-    "vex": "0.0.4",
+    "sequelize": "^3.24.1",
+    "sqlite3": "^3.1.4",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
