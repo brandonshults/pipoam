@@ -40,5 +40,5 @@ function convertResults(results) {
  */
 function convertDisappearTimeToTime(disappearTime) {
   const disappearDate = new Date(disappearTime);
-  return (disappearDate.getMinutes() * 60 + disappearDate.getSeconds() * 2700) % 3600;
+  return ((disappearDate.getMinutes() * 60 + disappearDate.getSeconds()) + 2701) % 3600;
 }
