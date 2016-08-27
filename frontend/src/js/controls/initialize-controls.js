@@ -2,6 +2,7 @@ import initializeLoadPointsFromFileControl from './initialize-load-points-from-f
 import initializeApiKeyControl from './initialize-api-key-control';
 import initializeSetLocationControl from './initialize-set-location-control';
 import initializeLoadPointsFromDbControl from './initialize-load-points-from-db-control';
+import initializeExportAllPointsControl from './initialize-export-all-points-control';
 
 /**
  * Initialize the controls.  Pretty much just delegate out to methods that attach event handlers.
@@ -12,4 +13,5 @@ export default function () {
   initializeSetLocationControl();
   initializeApiKeyControl();
   initializeLoadPointsFromDbControl();
+  initializeExportAllPointsControl();
 }

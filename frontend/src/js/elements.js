@@ -37,5 +37,11 @@ export default Object.freeze({
    * @type HTMLElement
    * @static
    */
-  LOAD_FROM_DB_FORM: document.getElementById('load-from-db-form')
+  LOAD_FROM_DB_FORM: document.getElementById('load-from-db-form'),
+
+  /**
+   * @type HTMLElement
+   * @static
+   */
+  EXPORT_ALL_POINTS_CONTROL: document.getElementById('export-all-points-control')
 });
