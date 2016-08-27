@@ -1,5 +1,7 @@
 # Points in Polygons on a Map
 A tool for clipping points on a map with polygons.
+
+**Important: If you imported from a DB before [cda2d83b](https://github.com/brandonshults/pipoam/commit/cda2d83bf653a58367585adeaf8b05a54acb1594) then you will need to re-import to fix a bug with how the time property was calculated.**
 #### To Run
 ```
 npm install
