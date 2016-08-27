@@ -2,7 +2,7 @@ import ELEMENTS from '../elements';
 import controls from './controls';
 import points from '../map/points';
 
-export default function (map) {
+export default function () {
   ELEMENTS.LOAD_FROM_DB_FORM.addEventListener('submit', event => {
     if (!window.fetch) {
       alert('Sorry, your browser must support fetch to use this feature.  See https://developer.mozilla.org/en/docs/Web/API/Fetch_API for more information.')
@@ -22,7 +22,7 @@ export default function (map) {
         }
         return response.json();
       })
-      .then(pointsFromDb => points.setPoints(pointsFromDb, map))
+      .then(pointsFromDb => points.setPoints(pointsFromDb))
       .then(() => {
 
         ELEMENTS.LOAD_FROM_DB_FORM.classList.remove('error');

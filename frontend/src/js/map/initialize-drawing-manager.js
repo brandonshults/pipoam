@@ -1,13 +1,14 @@
 import points from './points';
+import ELEMENTS from '../elements';
 
 /**
  * Initialize a drawing manager that only allows polygons.
  * When a polygon is drawn, add a click event listener to it.
  * @module
- * @param {google.maps.Map} map
  * @returns {google.maps.Map}
  */
-export default function (map) {
+export default function () {
+  const map = ELEMENTS.MAP.__mapInstance;
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingControl: true,
     drawingControlOptions: {

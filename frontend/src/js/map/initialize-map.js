@@ -11,8 +11,7 @@ export default function () {
   return determineStartingLocation()
     .then(configDb.setStartLocation)
     .then(initializeMap)
-    .then(googleMap => points.loadPoints(googleMap)
-      .then(() => googleMap));
+    .then(points.loadPoints);
 }
 
 /**
@@ -43,9 +42,11 @@ function determineStartingLocation() {
  * @returns {google.maps.Map}
  */
 function initializeMap(centerLocation) {
-  return new google.maps.Map(ELEMENTS.MAP, {
+  const mapInstance = new google.maps.Map(ELEMENTS.MAP, {
     center: centerLocation,
     mapTypeControl: true,
     zoom: 15
   });
+  ELEMENTS.MAP.__mapInstance = mapInstance;
+  return mapInstance;
 }

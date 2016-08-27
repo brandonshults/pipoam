@@ -1,6 +1,7 @@
 /** @type MarkerClusterer */
-import MarkerClusterer from 'imports?XModule=>undefined!exports?MarkerClusterer!js-marker-clusterer';
+import MarkerClusterer from 'exports?MarkerClusterer!js-marker-clusterer';
 import pointsDb from '../data/points-db';
+import ELEMENTS from '../elements';
 
 /**
  * A module for working with points on the map.
@@ -10,11 +11,10 @@ export default Object.freeze({
   /**
    * Load points from the db and add them to the map with clustering
    * @static
-   * @param map
    * @returns {Promise.<Array>}
    */
-  loadPoints(map) {
-    let clusterer = getClusterer(map);
+  loadPoints() {
+    let clusterer = getClusterer(ELEMENTS.MAP.__mapInstance);
     clusterer.clearMarkers();
     return pointsDb.getPoints()
       .then(pointsFromDb => pointsFromDb ? clusterer.addMarkers(pointsFromDb.map(convertPointToMarker)) : []);
@@ -32,17 +32,16 @@ export default Object.freeze({
    * Given a list of points, set them in the db and then load them to the map
    * @static
    * @param {Array.<{lat: number, lng: number}>} points
-   * @param {google.maps.Map} map
    * @returns {Promise.<Promise.<Array>>}
    */
-  setPoints(points, map) {
+  setPoints(points) {
     return pointsDb.setPoints(points)
-      .then((() => this.loadPoints(map)).bind(this));
+      .then(this.loadPoints.bind(this));
   }
 });
 
-/** @type {Map.<google.maps.Map, MarkerClusterer>}*/
-let mapClusters = new Map();
+/** @type {MarkerClusterer}*/
+let markerClusterer = null;
 
 /**
  * Given a google map, get (and create if necessary) the associated clusterer.
@@ -53,13 +52,13 @@ let mapClusters = new Map();
  * @returns {MarkerClusterer}
  */
 function getClusterer(map) {
-  if (!mapClusters.has(map)) {
-    mapClusters.set(map, new MarkerClusterer(map, [], {
+  if (markerClusterer === null) {
+    markerClusterer = new MarkerClusterer(map, [], {
       maxZoom: 14,
       imagePath: 'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
-    }));
+    });
   }
-  return mapClusters.get(map);
+  return markerClusterer;
 }
 
 /**

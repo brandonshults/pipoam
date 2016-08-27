@@ -7,10 +7,9 @@ import initializeLoadPointsFromDbControl from './initialize-load-points-from-db-
  * Initialize the controls.  Pretty much just delegate out to methods that attach event handlers.
  * @module
  */
-export default function (map) {
-  initializeLoadPointsFromFileControl(map);
-  initializeSetLocationControl(map);
+export default function () {
+  initializeLoadPointsFromFileControl();
+  initializeSetLocationControl();
   initializeApiKeyControl();
-  initializeLoadPointsFromDbControl(map);
-  return map;
+  initializeLoadPointsFromDbControl();
 }

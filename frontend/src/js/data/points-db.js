@@ -37,7 +37,7 @@ export default Object.freeze({
    * @returns {Promise.<Array.<{lat: number, lng: number}>>}
    */
   setPoints(points) {
-    return getPointsDocument('points')
+    return getPointsDocument()
       .then(document => db.put(Object.assign({}, document, { points })))
       .then(() => points);
   }

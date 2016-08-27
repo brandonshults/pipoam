@@ -6,8 +6,8 @@ import controls from './controls';
  * Initialize event listeners for clicking on the "Load Points" button.
  * @module
  */
-export default function (map) {
-  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL, map));
+export default function () {
+  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL));
 }
 
 /**
@@ -15,8 +15,9 @@ export default function (map) {
  * @param {HTMLElement} inputElement The input element to attach the event listener to.
  * @param {google.maps.Map} map The map.
  */
-function pointsFileInputHandler(inputElement, map) {
+function pointsFileInputHandler(inputElement) {
   const files = inputElement.files;
+  const map = ELEMENTS.MAP.__mapInstance;
 
   if (files.length < 1) {
     return;
@@ -36,7 +37,7 @@ function pointsFileInputHandler(inputElement, map) {
       alert('Failed to parse JSON from the file you loaded.');
     }
 
-    points.setPoints(loadedPoints, map);
+    points.setPoints(loadedPoints);
     controls.closeMenus();
   };
   fileReader.readAsText(files[0]);
