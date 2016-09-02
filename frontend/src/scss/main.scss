@@ -6,15 +6,13 @@ $light-gray: #D6D6D6;
 
 html, body {
   color: $light-gray;
+  display: flex;
+  flex-direction: column;
   font-family: Arial, serif;
   font-size: 12px;
   height: 100%;
   margin: 0;
   padding: 0;
-  position: relative;
-}
-
-h3 {
 }
 
 h2 {
@@ -182,10 +180,7 @@ input[type="checkbox"] {
 }
 
 #map {
-  min-height: 100%;
-  position: relative;
-  width: 100%;
-  z-index: 1;
+  flex: 1;
 }
 
 #maps-key-prompt {
