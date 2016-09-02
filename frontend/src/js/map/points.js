@@ -1,6 +1,7 @@
 /** @type MarkerClusterer */
 import MarkerClusterer from 'exports?MarkerClusterer!js-marker-clusterer';
 import pointsDb from '../data/points-db';
+import configDb from '../data/config-db';
 import ELEMENTS from '../elements';
 
 /**
@@ -17,7 +18,8 @@ export default Object.freeze({
     let clusterer = getClusterer(ELEMENTS.MAP.__mapInstance);
     clusterer.clearMarkers();
     return pointsDb.getPoints()
-      .then(pointsFromDb => pointsFromDb ? clusterer.addMarkers(pointsFromDb.map(convertPointToMarker)) : []);
+      .then(pointsFromDb => pointsFromDb ? clusterer.addMarkers(pointsFromDb.map(convertPointToMarker)) : [])
+      .then(fitMarkers);
   },
 
   /**
@@ -36,7 +38,7 @@ export default Object.freeze({
    */
   setPoints(points) {
     return pointsDb.setPoints(points)
-      .then(this.loadPoints.bind(this));
+      .then(this.loadPoints.bind(this))
   }
 });
 
@@ -72,3 +74,17 @@ function convertPointToMarker(point) {
     icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH1wgNDQ0t+VykQAAAAW1JREFUGNMt0D0vJAEAgOF3zIyxuzd2zH6Q9RkfxUUikUOIaC4K8QP8AY1E7io/QOkIQSU0SsVVhCsuLlu5XEK2sBGJhtizduwyztqdLzNXrP55m1cAgGW5ThRmunv0r6mU2vdYen24uvr73bayG7Bn1AyrgiSvLc7N/3avryuB6/rBQ9EJ1jcv/Yi6lIbBZgARPo8Nj37aXvgyoegxGQEBzxGJaXHh+SXWdZ7NKUFwdizJijI9PtIfur0BPwBVBduCfB4GPvbS2Ng5ZT5JK5KqKq1tbWECCYwSlMxa4HoQT8hoelQ3n+SkVC6X85ZboSHygbAKilJDlTI4nsu/Z6MKtlfnWMWDX+mz1/qQT1SDZDPoOoQjcPIni/l4mgH/TgT3PpeTmnxfHh0aSQmJpIhtv/Hj6IKdrd1b297/BnZGqC1KhGByLqr1zrZ3JFuMQtExCplz+LkN1UPAeocASBBqAa0DzDeo5oAC4AH8BzshkZVam56AAAAAAElFTkSuQmCC"
   });
 }
+
+function fitMarkers() {
+  return configDb.getPointsSettings()
+    .then(pointsSettings => {
+      if (pointsSettings.centerOnLoad) {
+        const map = ELEMENTS.MAP.__mapInstance;
+        const clusterer = getClusterer(map);
+        const bounds = new google.maps.LatLngBounds();
+        clusterer.getMarkers().forEach(marker => bounds.extend(marker.getPosition()));
+        map.fitBounds(bounds);
+      }
+    });
+}
+

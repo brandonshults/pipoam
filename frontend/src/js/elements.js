@@ -31,17 +31,17 @@ export default Object.freeze({
    * @type HTMLElement
    * @static
    */
-  SET_LOCATION_CONTROL: document.getElementById('set-location-control'),
-
-  /**
-   * @type HTMLElement
-   * @static
-   */
   LOAD_FROM_DB_FORM: document.getElementById('load-from-db-form'),
 
   /**
    * @type HTMLElement
    * @static
    */
-  EXPORT_ALL_POINTS_CONTROL: document.getElementById('export-all-points-control')
+  EXPORT_ALL_POINTS_CONTROL: document.getElementById('export-all-points-control'),
+
+  /**
+   * @type HTMLElement
+   * @static
+   */
+  CENTER_MAP_CONTROL: document.getElementById('center-map-control')
 });

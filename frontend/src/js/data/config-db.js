@@ -4,8 +4,33 @@ import PouchDB from 'pouchdb';
 const db = new PouchDB('pipoam');
 
 /**
+ * @typedef {{centerOnLoad: boolean}} PointsSettings
+ * @type PointsSettings
+ */
+const DEFAULT_POINTS_SETTINGS = {
+  centerOnLoad: false
+};
+
+/**
+ * @typedef {{lat: Number, lng: Number, zoom: Number}} MapPosition
+ * @type MapPosition
+ */
+const DEFAULT_MAP_POSITION = {
+  lat: 43.5992568,
+  lng: -122.334228,
+  zoom: 2
+};
+
+/**
+ * @typedef {Object} ConfigDocument
+ * @property {String} _id
+ * @property {String} apiKey
+ * @property {PointsSettings} pointsSettings
+ * @property {MapPosition} mapPosition
+ */
+/**
  * @private
- * @returns {Promise.<{_id: 'config', apiKey: String, startLocation: {lat: number, lng: number}}>}
+ * @returns {Promise.<ConfigDocument>}
  */
 const getConfigDocument = () => {
   return db.get('config').catch(function (err) {
@@ -13,7 +38,8 @@ const getConfigDocument = () => {
       return {
         _id: 'config',
         apiKey: null,
-        startLocation: null
+        pointsSettings: DEFAULT_POINTS_SETTINGS,
+        mapPosition: DEFAULT_MAP_POSITION
       };
     } else {
       throw err;
@@ -47,20 +73,39 @@ export default Object.freeze({
 
   /**
    * @static
-   * @returns {Promise.<{lat: number, lng: number}>}
+   * @returns {Promise.<PointsSettings>}
    */
-  getStartLocation() {
-    return getConfigDocument().then(configDocument => configDocument.startLocation);
+  getPointsSettings() {
+    return getConfigDocument().then(configDocument => configDocument.pointsSettings || DEFAULT_POINTS_SETTINGS);
   },
 
   /**
    * @static
-   * @param {{lat: number, lng: number}} latLngLiteral
-   * @returns {Promise.<{lat: number, lng: number}>}
+   * @param pointsSettings
+   * @returns {Promise.<PointsSettings>}
    */
-  setStartLocation(latLngLiteral) {
+  setPointsSettings(pointsSettings) {
     return getConfigDocument()
-      .then(configDocument => db.put(Object.assign({}, configDocument, {startLocation: latLngLiteral})))
-      .then(() => latLngLiteral);
+      .then(document => db.put(Object.assign({}, document, { pointsSettings })))
+      .then(() => pointsSettings);
+  },
+
+  /**
+   * @static
+   * @returns {Promise.<MapPosition>}
+   */
+  getMapPosition() {
+    return getConfigDocument().then(configDocument => configDocument.mapPosition || DEFAULT_MAP_POSITION);
+  },
+
+  /**
+   * @static
+   * @param {MapPosition} mapPosition
+   * @returns {Promise.<MapPosition>}
+   */
+  setMapPosition(mapPosition) {
+    return getConfigDocument()
+      .then(document => db.put(Object.assign({}, document, { mapPosition })))
+      .then(() => mapPosition);
   }
 });

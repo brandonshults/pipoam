@@ -151,6 +151,16 @@ h2 {
   }
 }
 
+input[type="checkbox"] {
+  line-height: 14px;
+  vertical-align: middle;
+
+  + label {
+    line-height: 14px;
+    vertical-align: middle;
+  }
+}
+
 .text-options {
   display: table;
   width: 250px;
