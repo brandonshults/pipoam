@@ -5,8 +5,10 @@
 - This changelog, and a retroactive entry to describe the latest changes.
 
 ## [1.0.0] - 2016-09-01
+
 ### Removed
 - Set Location control.
+
 ### Added
 - "Center map when points load" control under "Points"
   - If this is toggled, the map will change the viewport to fit the points loaded. 
