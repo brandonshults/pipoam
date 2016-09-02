@@ -1,6 +1,6 @@
 {
   "name": "pipoam",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Points in Polygons on a Map",
   "main": "index.js",
   "config": {
