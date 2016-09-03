@@ -5,7 +5,7 @@ import points from '../map/points';
 export default function () {
   ELEMENTS.LOAD_FROM_DB_FORM.addEventListener('submit', event => {
     if (!window.fetch) {
-      alert('Sorry, your browser must support fetch to use this feature.  See https://developer.mozilla.org/en/docs/Web/API/Fetch_API for more information.')
+      alert('Sorry, your browser must support fetch to use this feature.  See https://developer.mozilla.org/en/docs/Web/API/Fetch_API for more information.');
       return;
     }
 
@@ -22,9 +22,14 @@ export default function () {
         }
         return response.json();
       })
-      .then(pointsFromDb => points.setPoints(pointsFromDb))
+      .then(pointsFromDb => {
+        if(formData.get('mergePoints') === 'true') {
+          return points.mergePoints(pointsFromDb);
+        } else {
+          return points.setPoints(pointsFromDb)
+        }
+      })
       .then(() => {
-
         ELEMENTS.LOAD_FROM_DB_FORM.classList.remove('error');
         controls.closeMenus();
       })
