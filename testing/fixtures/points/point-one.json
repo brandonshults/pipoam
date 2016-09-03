@@ -1,0 +1,8 @@
+[
+  {
+    "_comment": "Input files must be a valid JSON array of object literals.  Each object literal must contain a 'lat' and 'lng' property with a numeric value.  Each can have any number and type of addition properties such as this '_comment.'  All properties of the object will be preserved when exporting.",
+    "lat": 47.5942294808949,
+    "lng": -122.33317612427,
+    "time": 288
+  }
+]
