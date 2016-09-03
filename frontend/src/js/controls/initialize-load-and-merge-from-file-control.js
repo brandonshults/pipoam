@@ -7,14 +7,15 @@ import controls from './controls';
  * @module
  */
 export default function () {
-  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.parentNode.addEventListener('change', event => pointsFileInputHandler(event.target));
+  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.parentNode.addEventListener('change', pointsFileInputHandler);
 }
 
 /**
  * @private
  * @param {HTMLElement} inputElement The input element to attach the event listener to.
  */
-function pointsFileInputHandler(inputElement) {
+function pointsFileInputHandler(event) {
+  const inputElement = event.target;
   const files = inputElement.files;
 
   if (files.length < 1) {
@@ -43,4 +44,9 @@ function pointsFileInputHandler(inputElement) {
     controls.closeMenus();
   };
   fileReader.readAsText(files[0]);
+
+
+  // Reset the value.  Otherwise, if the user attempts to load the same file, the
+  // change event will not fire.
+  inputElement.value = null;
 }
