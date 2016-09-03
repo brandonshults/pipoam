@@ -25,6 +25,12 @@ export default Object.freeze({
    * @type HTMLElement
    * @static
    */
+  MERGE_POINTS_FROM_FILE_CONTROL: document.getElementById('merge-from-file-control'),
+
+  /**
+   * @type HTMLElement
+   * @static
+   */
   API_KEY_CONTROL: document.getElementById('api-key-control'),
 
   /**

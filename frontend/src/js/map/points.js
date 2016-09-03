@@ -4,6 +4,8 @@ import pointsDb from '../data/points-db';
 import configDb from '../data/config-db';
 import ELEMENTS from '../elements';
 
+/** @typedef {{lat: number, lng: number, ?}} PipoamPoint */
+
 /**
  * A module for working with points on the map.
  * @module
@@ -12,19 +14,24 @@ export default Object.freeze({
   /**
    * Load points from the db and add them to the map with clustering
    * @static
-   * @returns {Promise.<Array>}
+   * @returns {Promise.<Array.<PipoamPoint>>}
    */
   loadPoints() {
     let clusterer = getClusterer(ELEMENTS.MAP.__mapInstance);
     clusterer.clearMarkers();
     return pointsDb.getPoints()
-      .then(pointsFromDb => pointsFromDb ? clusterer.addMarkers(pointsFromDb.map(convertPointToMarker)) : [])
-      .then(fitMarkers);
+      .then(pointsFromDb => {
+        if (pointsFromDb) {
+          clusterer.addMarkers(pointsFromDb.map(convertPointToMarker));
+        }
+        return centerOnLoad()
+          .then(() => pointsFromDb);
+      })
   },
 
   /**
    * @static
-   * @returns {Promise.<Array.<{lat: number, lng: number}>>}
+   * @returns {Promise.<Array.<PipoamPoint>>}
    */
   getPoints() {
     return pointsDb.getPoints();
@@ -33,12 +40,46 @@ export default Object.freeze({
   /**
    * Given a list of points, set them in the db and then load them to the map
    * @static
-   * @param {Array.<{lat: number, lng: number}>} points
-   * @returns {Promise.<Promise.<Array>>}
+   * @param {Array.<PipoamPoint>} points
+   * @returns {Promise.<Promise.<PipoamPoint>>}
    */
   setPoints(points) {
     return pointsDb.setPoints(points)
       .then(this.loadPoints.bind(this))
+  },
+
+  /**
+   * Reduce the points into an object whose keys are hashes created from the point's content
+   * and whose values are the point itself.  The hashes are created in such a way that any two points
+   * with the same key/value pairs (regardless of order) will produce the same hash.
+   * Because two equivalent points will produce the same hash, the second point will overwrite the
+   * first.  Now the values that are left in the object that is created are unique points, and can
+   * be turned back into an array.
+   * @static
+   * @param {Array.<PipoamPoint>} points
+   * @returns {Array.<PipoamPoint>}
+   */
+  dedupePoints(points) {
+    const dedupedObject = points.reduce((dedupeObject, point) => {
+      const hashForPoint = Object.keys(point).sort().reduce((hash, pointKey, index) => `${index === 0 ? '' : hash};${pointKey}:${point[pointKey]}`, '');
+      dedupeObject[hashForPoint] = point;
+      return dedupeObject;
+    }, {});
+
+    return Object.keys(dedupedObject).map(dedupeKey => dedupedObject[dedupeKey])
+  },
+
+  /**
+   * Combine a new set of points with the existing set and then dedupe them.
+   * @static
+   * @param newPoints
+   * @returns {Promise.<Array.<PipoamPoint>>}
+   */
+  mergePoints(newPoints) {
+    return this.getPoints().then(existingPoints => {
+      return pointsDb.setPoints(this.dedupePoints([].concat(newPoints).concat(existingPoints)))
+        .then(this.loadPoints.bind(this));
+    });
   }
 });
 
@@ -75,7 +116,12 @@ function convertPointToMarker(point) {
   });
 }
 
-function fitMarkers() {
+/**
+ * Adjust the viewport to fit all of the points on the map
+ * @private
+ * @returns {Promise}
+ */
+function centerOnLoad() {
   return configDb.getPointsSettings()
     .then(pointsSettings => {
       if (pointsSettings.centerOnLoad) {

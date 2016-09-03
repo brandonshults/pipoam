@@ -7,17 +7,15 @@ import controls from './controls';
  * @module
  */
 export default function () {
-  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.addEventListener('change', event => pointsFileInputHandler(ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL));
+  ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL.parentNode.addEventListener('change', event => pointsFileInputHandler(event.target));
 }
 
 /**
  * @private
  * @param {HTMLElement} inputElement The input element to attach the event listener to.
- * @param {google.maps.Map} map The map.
  */
 function pointsFileInputHandler(inputElement) {
   const files = inputElement.files;
-  const map = ELEMENTS.MAP.__mapInstance;
 
   if (files.length < 1) {
     return;
@@ -36,8 +34,12 @@ function pointsFileInputHandler(inputElement) {
     } catch (err) {
       alert('Failed to parse JSON from the file you loaded.');
     }
+    if(inputElement === ELEMENTS.LOAD_POINTS_FROM_FILE_CONTROL) {
+      points.setPoints(loadedPoints);
+    } else if(inputElement === ELEMENTS.MERGE_POINTS_FROM_FILE_CONTROL) {
+      points.mergePoints(loadedPoints);
+    }
 
-    points.setPoints(loadedPoints);
     controls.closeMenus();
   };
   fileReader.readAsText(files[0]);

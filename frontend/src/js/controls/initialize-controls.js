@@ -1,6 +1,6 @@
-import initializeLoadPointsFromFileControl from './initialize-load-points-from-file-control';
+import initializeLoadAndMergeFromFileControl from './initialize-load-and-merge-from-file-control';
 import initializeApiKeyControl from './initialize-api-key-control';
-import initializeLoadPointsFromDbControl from './initialize-load-points-from-db-control';
+import initializeLoadFromDbControl from './initialize-load-from-db-control';
 import initializeExportAllPointsControl from './initialize-export-all-points-control';
 import initializeCenterMapControl from './initialize-center-map-control';
 
@@ -9,9 +9,9 @@ import initializeCenterMapControl from './initialize-center-map-control';
  * @module
  */
 export default function () {
-  initializeLoadPointsFromFileControl();
+  initializeLoadAndMergeFromFileControl();
   initializeApiKeyControl();
-  initializeLoadPointsFromDbControl();
+  initializeLoadFromDbControl();
   initializeExportAllPointsControl();
   initializeCenterMapControl();
 }
