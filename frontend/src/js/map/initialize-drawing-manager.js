@@ -14,6 +14,9 @@ export default function () {
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
       drawingModes: ['polygon']
+    },
+    polygonOptions: {
+      editable: true
     }
   });
   drawingManager.setMap(map);
